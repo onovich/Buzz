@@ -5,13 +5,18 @@ using UnityEngine;
 
 namespace TenonKit.Buzz.Sample {
 
-    public struct RumbleEventModel {
+    public class RumbleEntity {
 
-        public float lowFreq;
-        public float highFreq;
+        public MotorType motorType;
+        public float startFreq;
+        public float endFreq;
         public float duration;
         public EasingType easingType;
         public EasingMode easingMode;
+
+        public float currentTime;
+        public bool isFinished;
+        public float currentFreq;
 
     }
 
