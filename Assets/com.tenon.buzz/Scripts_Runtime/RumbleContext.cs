@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TenonKit.Buzz.Sample {
 
-    public class RumbleCore {
+    public class RumbleContext {
 
 
         
