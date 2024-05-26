@@ -30,20 +30,17 @@ public class SampleEntry : MonoBehaviour {
     }
 
     void Update() {
-        if (gamepad == null) {
-            var succ = TrySetCurrentGamepad();
-            if (!succ) {
-                return;
-            }
-        }
-
         var lowFreq = 0f;
         var highFreq = 0f;
+
+        if(gamepad == null) {
+            return;
+        }
 
         // 按键A，手柄小马达震动，频率低
         if (gamepad.buttonSouth.wasPressedThisFrame) {
             lowFreq = 0.25f;
-            // Debug.Log("按键A：小马达低频震动");
+            Debug.Log("按键A：小马达低频震动");
         }
 
         // 按键B，手柄大马达震动，频率低
@@ -68,12 +65,12 @@ public class SampleEntry : MonoBehaviour {
             gamepad.SetMotorSpeeds(lowFreq, highFreq);
         }
 
-        // 停止震动
-        if (!gamepad.buttonSouth.isPressed &&
-            !gamepad.buttonEast.isPressed &&
-            !gamepad.buttonWest.isPressed &&
-            !gamepad.buttonNorth.isPressed) {
-            gamepad.SetMotorSpeeds(0, 0);
-        }
+        // // 停止震动
+        // if (!gamepad.buttonSouth.isPressed &&
+        //     !gamepad.buttonEast.isPressed &&
+        //     !gamepad.buttonWest.isPressed &&
+        //     !gamepad.buttonNorth.isPressed) {
+        //     gamepad.SetMotorSpeeds(0, 0);
+        // }
     }
 }
