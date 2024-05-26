@@ -1,0 +1,19 @@
+{
+    "name": "com.tenon.buzz",
+    "version": "0.0.0",
+    "unity": "2019.4",
+    "author": {
+        "name": "onovich",
+        "email": "onovich1110@gmail.com"
+    },
+    "displayName": "TenonKit.Buzz",
+    "description": "A Game Pad Vibration Effect Management Library",
+    "documentationURL": "https://github.com/onovich/LitIO",
+    "hideInEditor": false,
+    "category": "Game Pad",
+    "keywords": [
+        "TenonKit",
+        "game pad vibration"
+    ],
+    "unityRelease": "16f1"
+}
