@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,20 @@ namespace TenonKit.Buzz.Sample {
 
         public RumbleEntity currentLeftRumble;
         public RumbleEntity currentRightRumble;
-        public Queue<RumbleTaskModel> allTasks;
+
+        public List<RumbleTaskModel> all;
+        public Queue<RumbleTaskModel> allTasksQueue;
+
+        public RumbleTaskModel[] readyTemp;
         public RumbleTaskModel[] temp;
-        public float currentTime;
 
         public RumbleContext() {
-            allTasks = new Queue<RumbleTaskModel>();
+            all = new List<RumbleTaskModel>();
+            allTasksQueue = new Queue<RumbleTaskModel>();
             currentLeftRumble = new RumbleEntity();
             currentRightRumble = new RumbleEntity();
-            currentTime = 0;
-            temp = new RumbleTaskModel[4];
+            readyTemp = new RumbleTaskModel[20];
+            temp = new RumbleTaskModel[20];
         }
 
         public void SetLeftRumble(RumbleEntity entity) {
@@ -29,27 +34,42 @@ namespace TenonKit.Buzz.Sample {
         }
 
         public void AddTask(RumbleTaskModel model) {
-            allTasks.Enqueue(model);
+            allTasksQueue.Enqueue(model);
         }
 
-        public int TryGetReadyTask(out RumbleTaskModel[] modelArray) {
-            var count = 0;
-            while (allTasks.Count > count) {
-                var model = allTasks.Peek();
-                if (model.timeStamp <= currentTime) {
-                    temp[count] = model;
-                    allTasks.Dequeue();
-                    count++;
-                } else {
-                    break;
-                }
+        public int GetAllTask(out RumbleTaskModel[] modelArray) {
+            int count = all.Count;
+            if (count > temp.Length) {
+                temp = new RumbleTaskModel[(int)(count * 1.5f)];
             }
+            all.CopyTo(temp, 0);
             modelArray = temp;
             return count;
         }
 
+        public int GetAllReadyTask(out RumbleTaskModel[] modelArray) {
+            int count = 0;
+            for (int i = 0; i < all.Count; i++) {
+                var model = all[i];
+
+                if (count >= readyTemp.Length) {
+                    var newReadyTemp = new RumbleTaskModel[(int)(count * 1.5f)];
+                    readyTemp.CopyTo(newReadyTemp, 0);
+                    readyTemp = newReadyTemp;
+                }
+
+                if (model.delay <= 0) {
+                    readyTemp[i] = model;
+                    count++;
+                }
+            }
+
+            modelArray = readyTemp;
+            return count;
+        }
+
         public void Clear() {
-            allTasks.Clear();
+            allTasksQueue.Clear();
         }
 
     }

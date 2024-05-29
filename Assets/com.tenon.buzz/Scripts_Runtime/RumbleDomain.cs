@@ -6,12 +6,11 @@ namespace TenonKit.Buzz.Sample {
     public static class RumbleDomain {
 
         public static void CreateRumbleTaskModel(RumbleContext ctx, MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
-            var timeStamp = ctx.currentTime + delay;
-            var model = RumbleFactory.CreateRumbleTaskModel(motorType, timeStamp, startFreq, endFreq, duration, easingType, easingMode);
+            var model = RumbleFactory.CreateRumbleTaskModel(motorType, delay, startFreq, endFreq, duration, easingType, easingMode);
             ctx.AddTask(model);
         }
 
-        public static void CreateNewRumbleEntityFromModel(RumbleContext ctx, RumbleTaskModel model) {
+        static void CreateNewRumbleEntityFromModel(RumbleContext ctx, RumbleTaskModel model) {
             var entity = RumbleFactory.CreateRumbleEntity(model);
             if (model.motorType == MotorType.Left) {
                 ctx.SetLeftRumble(entity);
@@ -20,7 +19,7 @@ namespace TenonKit.Buzz.Sample {
             }
         }
 
-        public static void UpdateRumbleFromModel(RumbleContext ctx, RumbleTaskModel model) {
+        static void UpdateRumbleFromModel(RumbleContext ctx, RumbleTaskModel model) {
             if (model.motorType == MotorType.Left) {
                 var entity = ctx.currentLeftRumble;
                 RumbleFactory.UpdateRumbleFromModel(entity, model);
@@ -40,10 +39,9 @@ namespace TenonKit.Buzz.Sample {
         }
 
         public static void TickRumble(RumbleContext ctx, float dt) {
-            // Update Time
-            ctx.currentTime += dt;
 
             // Apply Task
+            ApplyTaskTime(ctx, dt);
             ApplyCheckTask(ctx);
 
             // Apply Rumble
@@ -55,8 +53,19 @@ namespace TenonKit.Buzz.Sample {
             }
         }
 
+        static void ApplyTaskTime(RumbleContext ctx, float dt) {
+            var len = ctx.GetAllTask(out var modelArr);
+            if (len == 0) {
+                return;
+            }
+            for (var i = 0; i < len; i++) {
+                var model = modelArr[i];
+                model.delay -= dt;
+            }
+        }
+
         static void ApplyCheckTask(RumbleContext ctx) {
-            var len = ctx.TryGetReadyTask(out var modelArr);
+            var len = ctx.GetAllReadyTask(out var modelArr);
             if (len == 0) {
                 return;
             }

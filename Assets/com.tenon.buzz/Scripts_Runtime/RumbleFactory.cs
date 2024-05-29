@@ -4,10 +4,10 @@ namespace TenonKit.Buzz.Sample {
 
     public static class RumbleFactory {
 
-        public static RumbleTaskModel CreateRumbleTaskModel(MotorType motorType, float timeStamp, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
+        public static RumbleTaskModel CreateRumbleTaskModel(MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
             return new RumbleTaskModel {
                 motorType = motorType,
-                timeStamp = timeStamp,
+                delay = delay,
                 startFreq = startFreq,
                 endFreq = endFreq,
                 duration = duration,

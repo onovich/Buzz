@@ -7,7 +7,7 @@ namespace TenonKit.Buzz.Sample {
 
     public struct RumbleTaskModel {
 
-        public float timeStamp;
+        public float delay;
         public MotorType motorType;
         public float startFreq;
         public float endFreq;
