@@ -2,9 +2,9 @@ using MortiseFrame.Swing;
 
 namespace TenonKit.Buzz.Sample {
 
-    public static class RumbleFactory {
+    internal static class RumbleFactory {
 
-        public static RumbleTaskModel CreateRumbleTaskModel(MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
+        internal static RumbleTaskModel CreateRumbleTaskModel(MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
             return new RumbleTaskModel {
                 motorType = motorType,
                 delay = delay,
@@ -16,7 +16,7 @@ namespace TenonKit.Buzz.Sample {
             };
         }
 
-        public static RumbleEntity CreateRumbleEntity(RumbleTaskModel model) {
+        internal static RumbleEntity CreateRumbleEntity(RumbleTaskModel model) {
             return new RumbleEntity {
                 motorType = model.motorType,
                 startFreq = model.startFreq,
@@ -31,7 +31,7 @@ namespace TenonKit.Buzz.Sample {
             };
         }
 
-        public static void UpdateRumbleFromModel(RumbleEntity entity, RumbleTaskModel model) {
+        internal static void UpdateRumbleFromModel(RumbleEntity entity, RumbleTaskModel model) {
             entity.motorType = model.motorType;
             entity.startFreq = model.startFreq;
             entity.endFreq = model.endFreq;

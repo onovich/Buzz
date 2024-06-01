@@ -33,7 +33,7 @@ public class SampleEntry : MonoBehaviour {
         var lowFreq = 0f;
         var highFreq = 0f;
 
-        if(gamepad == null) {
+        if (gamepad == null) {
             return;
         }
 

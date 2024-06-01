@@ -3,9 +3,9 @@ using UnityEngine.UIElements.Experimental;
 
 namespace TenonKit.Buzz.Sample {
 
-    public static class RumbleDomain {
+    internal static class RumbleDomain {
 
-        public static void CreateRumbleTaskModel(RumbleContext ctx, MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
+        internal static void CreateRumbleTaskModel(RumbleContext ctx, MotorType motorType, float delay, float startFreq, float endFreq, float duration, EasingType easingType, EasingMode easingMode) {
             var model = RumbleFactory.CreateRumbleTaskModel(motorType, delay, startFreq, endFreq, duration, easingType, easingMode);
             ctx.AddTask(model);
         }
@@ -38,7 +38,7 @@ namespace TenonKit.Buzz.Sample {
             }
         }
 
-        public static void TickRumble(RumbleContext ctx, float dt) {
+        internal static void TickRumble(RumbleContext ctx, float dt) {
 
             // Apply Task
             ApplyTaskTime(ctx, dt);

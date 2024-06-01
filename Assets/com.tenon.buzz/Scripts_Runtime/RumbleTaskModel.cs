@@ -5,15 +5,15 @@ using UnityEngine;
 
 namespace TenonKit.Buzz.Sample {
 
-    public struct RumbleTaskModel {
+    internal struct RumbleTaskModel {
 
-        public float delay;
-        public MotorType motorType;
-        public float startFreq;
-        public float endFreq;
-        public float duration;
-        public EasingType easingType;
-        public EasingMode easingMode;
+        internal float delay;
+        internal MotorType motorType;
+        internal float startFreq;
+        internal float endFreq;
+        internal float duration;
+        internal EasingType easingType;
+        internal EasingMode easingMode;
 
     }
 

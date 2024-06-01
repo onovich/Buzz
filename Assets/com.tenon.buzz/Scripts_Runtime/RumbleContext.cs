@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace TenonKit.Buzz.Sample {
 
-    public class RumbleContext {
+    internal class RumbleContext {
 
-        public RumbleEntity currentLeftRumble;
-        public RumbleEntity currentRightRumble;
+        internal RumbleEntity currentLeftRumble;
+        internal RumbleEntity currentRightRumble;
 
-        public List<RumbleTaskModel> all;
-        public Queue<RumbleTaskModel> allTasksQueue;
+        internal List<RumbleTaskModel> all;
+        internal Queue<RumbleTaskModel> allTasksQueue;
 
-        public RumbleTaskModel[] readyTemp;
-        public RumbleTaskModel[] temp;
+        internal RumbleTaskModel[] readyTemp;
+        internal RumbleTaskModel[] temp;
 
-        public RumbleContext() {
+        internal RumbleContext() {
             all = new List<RumbleTaskModel>();
             allTasksQueue = new Queue<RumbleTaskModel>();
             currentLeftRumble = new RumbleEntity();
@@ -25,19 +25,19 @@ namespace TenonKit.Buzz.Sample {
             temp = new RumbleTaskModel[20];
         }
 
-        public void SetLeftRumble(RumbleEntity entity) {
+        internal void SetLeftRumble(RumbleEntity entity) {
             currentLeftRumble = entity;
         }
 
-        public void SetRightRumble(RumbleEntity entity) {
+        internal void SetRightRumble(RumbleEntity entity) {
             currentRightRumble = entity;
         }
 
-        public void AddTask(RumbleTaskModel model) {
+        internal void AddTask(RumbleTaskModel model) {
             allTasksQueue.Enqueue(model);
         }
 
-        public int GetAllTask(out RumbleTaskModel[] modelArray) {
+        internal int GetAllTask(out RumbleTaskModel[] modelArray) {
             int count = all.Count;
             if (count > temp.Length) {
                 temp = new RumbleTaskModel[(int)(count * 1.5f)];
@@ -47,7 +47,7 @@ namespace TenonKit.Buzz.Sample {
             return count;
         }
 
-        public int GetAllReadyTask(out RumbleTaskModel[] modelArray) {
+        internal int GetAllReadyTask(out RumbleTaskModel[] modelArray) {
             int count = 0;
             for (int i = 0; i < all.Count; i++) {
                 var model = all[i];
@@ -68,7 +68,7 @@ namespace TenonKit.Buzz.Sample {
             return count;
         }
 
-        public void Clear() {
+        internal void Clear() {
             allTasksQueue.Clear();
         }
 
