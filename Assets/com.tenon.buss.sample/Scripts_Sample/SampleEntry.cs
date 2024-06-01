@@ -1,76 +1,95 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SampleEntry : MonoBehaviour {
-    private Gamepad gamepad;
+namespace TenonKit.Buzz.Sample {
 
-    void Start() {
-        TrySetCurrentGamepad();
-    }
+    public class SampleEntry : MonoBehaviour {
+        Gamepad gamepad;
+        RumbleCore rumbleCore;
 
-    bool TrySetCurrentGamepad() {
-        if (Gamepad.current != null) {
-            gamepad = Gamepad.current;
-            Debug.Log("手柄已连接");
+        void Start() {
+            InitRumbleCore();
+            TrySetCurrentGamepad();
+        }
 
-            // 测试手柄是否支持震动
-            try {
-                gamepad.SetMotorSpeeds(0.1f, 0.1f);
-                Debug.Log("手柄支持震动");
-                gamepad.SetMotorSpeeds(0, 0); // 停止震动
-                return true;
-            } catch (System.Exception) {
-                Debug.Log("手柄不支持震动");
+        void InitRumbleCore() {
+            rumbleCore = new RumbleCore();
+        }
+
+        bool TrySetCurrentGamepad() {
+            if (Gamepad.current != null) {
+                gamepad = Gamepad.current;
+                Debug.Log("手柄已连接");
+
+                // 测试手柄是否支持震动
+                try {
+                    gamepad.SetMotorSpeeds(0.1f, 0.1f);
+                    gamepad.SetMotorSpeeds(0, 0); // 停止震动
+                    return true;
+                } catch (System.Exception) {
+                    Debug.Log("手柄不支持震动");
+                    return false;
+                }
+            } else {
+                Debug.Log("没有连接手柄");
                 return false;
             }
-        } else {
-            Debug.Log("没有连接手柄");
-            return false;
+        }
+
+        void Rumble1() {
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+        }
+
+        void Rumble2() {
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 3, EasingType.Linear, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+        }
+
+        void Rumble3() {
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 1, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 2, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
+        }
+
+        void Rumble4() {
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Sine, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, .2f, EasingType.Sine, EasingMode.EaseOut);
+        }
+
+        void Update() {
+
+            if (gamepad.buttonSouth.wasPressedThisFrame) {
+                Rumble1();
+                Debug.Log("Rumble1");
+            }
+
+            if (gamepad.buttonWest.wasPressedThisFrame) {
+                Rumble2();
+                Debug.Log("Rumble2");
+            }
+
+            if (gamepad.buttonNorth.wasPressedThisFrame) {
+                Rumble3();
+                Debug.Log("Rumble3");
+            }
+
+            if (gamepad.buttonEast.wasPressedThisFrame) {
+                Rumble4();
+                Debug.Log("Rumble4");
+            }
+
+            var dt = Time.deltaTime;
+            rumbleCore.Tick(dt, out var leftFreq, out var rightFreq);
+            if (gamepad != null) {
+                gamepad.SetMotorSpeeds(leftFreq, rightFreq);
+            }
+
+            if (leftFreq > 0 || rightFreq > 0) {
+                Debug.Log($"leftFreq: {leftFreq}, rightFreq: {rightFreq}");
+            }
+
         }
     }
 
-    void Update() {
-        var lowFreq = 0f;
-        var highFreq = 0f;
-
-        if (gamepad == null) {
-            return;
-        }
-
-        // 按键A，手柄小马达震动，频率低
-        if (gamepad.buttonSouth.wasPressedThisFrame) {
-            lowFreq = 0.25f;
-            Debug.Log("按键A：小马达低频震动");
-        }
-
-        // 按键B，手柄大马达震动，频率低
-        if (gamepad.buttonEast.wasPressedThisFrame) {
-            highFreq = 0.25f;
-            // Debug.Log("按键B：大马达低频震动");
-        }
-
-        // 按键X，手柄小马达震动，频率高
-        if (gamepad.buttonWest.wasPressedThisFrame) {
-            lowFreq = 1.0f;
-            // Debug.Log("按键X：小马达高频震动");
-        }
-
-        // 按键Y，手柄大马达震动，频率高
-        if (gamepad.buttonNorth.wasPressedThisFrame) {
-            highFreq = 1.0f;
-            // Debug.Log("按键Y：大马达高频震动");
-        }
-
-        if (lowFreq > 0 || highFreq > 0) {
-            gamepad.SetMotorSpeeds(lowFreq, highFreq);
-        }
-
-        // // 停止震动
-        // if (!gamepad.buttonSouth.isPressed &&
-        //     !gamepad.buttonEast.isPressed &&
-        //     !gamepad.buttonWest.isPressed &&
-        //     !gamepad.buttonNorth.isPressed) {
-        //     gamepad.SetMotorSpeeds(0, 0);
-        // }
-    }
 }
