@@ -1,7 +1,7 @@
 using MortiseFrame.Swing;
 using UnityEngine.UIElements.Experimental;
 
-namespace TenonKit.Buzz.Sample {
+namespace TenonKit.Buzz {
 
     internal static class RumbleDomain {
 
@@ -38,7 +38,7 @@ namespace TenonKit.Buzz.Sample {
             }
         }
 
-        internal static void TickRumble(RumbleContext ctx, float dt) {
+        internal static void TickRumble(RumbleContext ctx, float dt, out float leftFreq, out float rightFreq) {
 
             // Apply Task
             ApplyTaskTime(ctx, dt);
@@ -51,6 +51,12 @@ namespace TenonKit.Buzz.Sample {
             if (ctx.currentRightRumble.isFinished == false) {
                 ApplyRumble(ctx.currentRightRumble, dt);
             }
+
+            var leftRumble = ctx.currentLeftRumble;
+            var rightRumble = ctx.currentRightRumble;
+
+            leftFreq = leftRumble.currentFreq;
+            rightFreq = rightRumble.currentFreq;
         }
 
         static void ApplyTaskTime(RumbleContext ctx, float dt) {

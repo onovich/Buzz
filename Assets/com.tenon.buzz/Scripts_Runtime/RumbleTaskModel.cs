@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MortiseFrame.Swing;
 using UnityEngine;
 
-namespace TenonKit.Buzz.Sample {
+namespace TenonKit.Buzz{
 
     internal struct RumbleTaskModel {
 

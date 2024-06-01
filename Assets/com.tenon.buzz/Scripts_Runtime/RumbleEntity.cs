@@ -1,6 +1,6 @@
 using MortiseFrame.Swing;
 
-namespace TenonKit.Buzz.Sample {
+namespace TenonKit.Buzz{
 
     internal class RumbleEntity {
 

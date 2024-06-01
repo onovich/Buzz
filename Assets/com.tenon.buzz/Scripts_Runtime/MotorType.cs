@@ -1,4 +1,4 @@
-namespace TenonKit.Buzz.Sample {
+namespace TenonKit.Buzz{
 
     public enum MotorType {
         None,
