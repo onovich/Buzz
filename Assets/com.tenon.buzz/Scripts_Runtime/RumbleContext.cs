@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TenonKit.Buzz{
+namespace TenonKit.Buzz {
 
     internal class RumbleContext {
 
@@ -43,6 +43,10 @@ namespace TenonKit.Buzz{
             all.CopyTo(temp, 0);
             modelArray = temp;
             return count;
+        }
+
+        internal void UpdateTask(RumbleTaskModel model, int index) {
+            all[index] = model;
         }
 
         internal int TakeAllReadyTask(out RumbleTaskModel[] modelArray) {

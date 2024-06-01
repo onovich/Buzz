@@ -61,33 +61,37 @@ namespace TenonKit.Buzz.Sample {
         }
 
         void StopAllRumble() {
-            gamepad.SetMotorSpeeds(0, 0);
+            gamepad?.SetMotorSpeeds(0, 0);
             rumbleCore.Clear();
         }
 
         void Update() {
 
-            if (gamepad.leftTrigger.wasPressedThisFrame) {
+            if (gamepad == null) {
+                return;
+            }
+
+            if (gamepad.leftTrigger.wasPressedThisFrame || gamepad.rightTrigger.wasPressedThisFrame) {
                 Debug.Log("leftTrigger");
                 StopAllRumble();
             }
 
-            if (gamepad.buttonSouth.wasPressedThisFrame) {
+            if (gamepad.aButton.wasPressedThisFrame) {
                 Rumble1();
                 Debug.Log("Rumble1");
             }
 
-            if (gamepad.buttonWest.wasPressedThisFrame) {
+            if (gamepad.bButton.wasPressedThisFrame) {
                 Rumble2();
                 Debug.Log("Rumble2");
             }
 
-            if (gamepad.buttonNorth.wasPressedThisFrame) {
+            if (gamepad.xButton.wasPressedThisFrame) {
                 Rumble3();
                 Debug.Log("Rumble3");
             }
 
-            if (gamepad.buttonEast.wasPressedThisFrame) {
+            if (gamepad.yButton.wasPressedThisFrame) {
                 Rumble4();
                 Debug.Log("Rumble4");
             }

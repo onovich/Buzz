@@ -66,7 +66,11 @@ namespace TenonKit.Buzz {
             }
             for (var i = 0; i < len; i++) {
                 var model = modelArr[i];
+                if (model.delay <= 0) {
+                    continue;
+                }
                 model.delay -= dt;
+                ctx.UpdateTask(model, i);
             }
         }
 
