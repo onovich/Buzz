@@ -11,14 +11,12 @@ namespace TenonKit.Buzz{
         internal RumbleEntity currentRightRumble;
 
         internal List<RumbleTaskModel> all;
-        internal Queue<RumbleTaskModel> allTasksQueue;
 
         internal RumbleTaskModel[] readyTemp;
         internal RumbleTaskModel[] temp;
 
         internal RumbleContext() {
             all = new List<RumbleTaskModel>();
-            allTasksQueue = new Queue<RumbleTaskModel>();
             currentLeftRumble = new RumbleEntity();
             currentRightRumble = new RumbleEntity();
             readyTemp = new RumbleTaskModel[20];
@@ -34,7 +32,7 @@ namespace TenonKit.Buzz{
         }
 
         internal void AddTask(RumbleTaskModel model) {
-            allTasksQueue.Enqueue(model);
+            all.Add(model);
         }
 
         internal int GetAllTask(out RumbleTaskModel[] modelArray) {
@@ -47,7 +45,7 @@ namespace TenonKit.Buzz{
             return count;
         }
 
-        internal int GetAllReadyTask(out RumbleTaskModel[] modelArray) {
+        internal int TakeAllReadyTask(out RumbleTaskModel[] modelArray) {
             int count = 0;
             for (int i = 0; i < all.Count; i++) {
                 var model = all[i];
@@ -65,11 +63,16 @@ namespace TenonKit.Buzz{
             }
 
             modelArray = readyTemp;
+
+            for (int i = 0; i < count; i++) {
+                all.Remove(readyTemp[i]);
+            }
+
             return count;
         }
 
         internal void Clear() {
-            allTasksQueue.Clear();
+            all.Clear();
         }
 
     }

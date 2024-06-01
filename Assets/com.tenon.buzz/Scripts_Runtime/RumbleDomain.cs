@@ -55,8 +55,8 @@ namespace TenonKit.Buzz {
             var leftRumble = ctx.currentLeftRumble;
             var rightRumble = ctx.currentRightRumble;
 
-            leftFreq = leftRumble.currentFreq;
-            rightFreq = rightRumble.currentFreq;
+            leftFreq = leftRumble.isFinished ? 0 : leftRumble.currentFreq;
+            rightFreq = leftRumble.isFinished ? 0 : rightRumble.currentFreq;
         }
 
         static void ApplyTaskTime(RumbleContext ctx, float dt) {
@@ -71,10 +71,11 @@ namespace TenonKit.Buzz {
         }
 
         static void ApplyCheckTask(RumbleContext ctx) {
-            var len = ctx.GetAllReadyTask(out var modelArr);
+            var len = ctx.TakeAllReadyTask(out var modelArr);
             if (len == 0) {
                 return;
             }
+
             for (var i = 0; i < len; i++) {
                 var model = modelArr[i];
 

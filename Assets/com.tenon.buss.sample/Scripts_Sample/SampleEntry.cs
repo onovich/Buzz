@@ -15,6 +15,9 @@ namespace TenonKit.Buzz.Sample {
 
         void InitRumbleCore() {
             rumbleCore = new RumbleCore();
+            BLog.Log = Debug.Log;
+            BLog.Warning = Debug.LogWarning;
+            BLog.Error = Debug.LogError;
         }
 
         bool TrySetCurrentGamepad() {
@@ -57,7 +60,17 @@ namespace TenonKit.Buzz.Sample {
             rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, .2f, EasingType.Sine, EasingMode.EaseOut);
         }
 
+        void StopAllRumble() {
+            gamepad.SetMotorSpeeds(0, 0);
+            rumbleCore.Clear();
+        }
+
         void Update() {
+
+            if (gamepad.leftTrigger.wasPressedThisFrame) {
+                Debug.Log("leftTrigger");
+                StopAllRumble();
+            }
 
             if (gamepad.buttonSouth.wasPressedThisFrame) {
                 Rumble1();
@@ -89,6 +102,15 @@ namespace TenonKit.Buzz.Sample {
                 Debug.Log($"leftFreq: {leftFreq}, rightFreq: {rightFreq}");
             }
 
+        }
+
+        void OnDestroy() {
+            rumbleCore.Clear();
+            StopAllRumble();
+        }
+
+        void OnApplicationQuit() {
+            StopAllRumble();
         }
     }
 
