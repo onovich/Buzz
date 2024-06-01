@@ -10,17 +10,17 @@ namespace TenonKit.Buzz {
         internal RumbleEntity currentLeftRumble;
         internal RumbleEntity currentRightRumble;
 
-        internal List<RumbleTaskModel> all;
+        internal List<RumbleTaskModel> allTask;
 
-        internal RumbleTaskModel[] readyTemp;
-        internal RumbleTaskModel[] temp;
+        internal RumbleTaskModel[] readyTaskTemp;
+        internal RumbleTaskModel[] allTasktemp;
 
         internal RumbleContext() {
-            all = new List<RumbleTaskModel>();
+            allTask = new List<RumbleTaskModel>();
             currentLeftRumble = new RumbleEntity();
             currentRightRumble = new RumbleEntity();
-            readyTemp = new RumbleTaskModel[20];
-            temp = new RumbleTaskModel[20];
+            readyTaskTemp = new RumbleTaskModel[20];
+            allTasktemp = new RumbleTaskModel[20];
         }
 
         internal void SetLeftRumble(RumbleEntity entity) {
@@ -32,51 +32,57 @@ namespace TenonKit.Buzz {
         }
 
         internal void AddTask(RumbleTaskModel model) {
-            all.Add(model);
+            allTask.Add(model);
         }
 
         internal int GetAllTask(out RumbleTaskModel[] modelArray) {
-            int count = all.Count;
-            if (count > temp.Length) {
-                temp = new RumbleTaskModel[(int)(count * 1.5f)];
+            int count = allTask.Count;
+            if (count > allTasktemp.Length) {
+                allTasktemp = new RumbleTaskModel[(int)(count * 1.5f)];
             }
-            all.CopyTo(temp, 0);
-            modelArray = temp;
+            allTask.CopyTo(allTasktemp, 0);
+            modelArray = allTasktemp;
             return count;
         }
 
         internal void UpdateTask(RumbleTaskModel model, int index) {
-            all[index] = model;
+            allTask[index] = model;
         }
 
         internal int TakeAllReadyTask(out RumbleTaskModel[] modelArray) {
             int count = 0;
-            for (int i = 0; i < all.Count; i++) {
-                var model = all[i];
+            for (int i = 0; i < allTask.Count; i++) {
+                var model = allTask[i];
+                if (model.motorType == MotorType.None) {
+                    continue;
+                }
 
-                if (count >= readyTemp.Length) {
+                if (count >= readyTaskTemp.Length) {
                     var newReadyTemp = new RumbleTaskModel[(int)(count * 1.5f)];
-                    readyTemp.CopyTo(newReadyTemp, 0);
-                    readyTemp = newReadyTemp;
+                    readyTaskTemp.CopyTo(newReadyTemp, 0);
+                    readyTaskTemp = newReadyTemp;
                 }
 
                 if (model.delay <= 0) {
-                    readyTemp[i] = model;
+                    readyTaskTemp[i] = model;
                     count++;
                 }
             }
 
-            modelArray = readyTemp;
+            modelArray = readyTaskTemp;
 
-            for (int i = 0; i < count; i++) {
-                all.Remove(readyTemp[i]);
+            allTask.RemoveAll(model => model.delay <= 0);
+            if (count == 2) {
+                Debug.Log("count==2: type: " + readyTaskTemp[0].motorType + " " + readyTaskTemp[1].motorType);
             }
-
+            if (count == 1) {
+                Debug.Log("count==1: type: " + readyTaskTemp[0].motorType);
+            }
             return count;
         }
 
         internal void Clear() {
-            all.Clear();
+            allTask.Clear();
         }
 
     }

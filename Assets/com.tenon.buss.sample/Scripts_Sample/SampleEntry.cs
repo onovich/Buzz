@@ -51,13 +51,13 @@ namespace TenonKit.Buzz.Sample {
         }
 
         void Rumble3() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 1, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
             rumbleCore.CreateRumbleTaskModel(MotorType.Right, 2, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 1, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
         }
 
         void Rumble4() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Sine, EasingMode.EaseOut);
             rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, .2f, EasingType.Sine, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Sine, EasingMode.EaseOut);
         }
 
         void StopAllRumble() {
@@ -103,7 +103,7 @@ namespace TenonKit.Buzz.Sample {
             }
 
             if (leftFreq > 0 || rightFreq > 0) {
-                Debug.Log($"leftFreq: {leftFreq}, rightFreq: {rightFreq}");
+                // Debug.Log($"leftFreq: {leftFreq}, rightFreq: {rightFreq}");
             }
 
         }

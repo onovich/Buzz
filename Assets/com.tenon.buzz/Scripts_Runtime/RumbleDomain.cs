@@ -14,8 +14,10 @@ namespace TenonKit.Buzz {
             var entity = RumbleFactory.CreateRumbleEntity(model);
             if (model.motorType == MotorType.Left) {
                 ctx.SetLeftRumble(entity);
-            } else {
+            } else if (model.motorType == MotorType.Left) {
                 ctx.SetRightRumble(entity);
+            } else {
+                BLog.Error("RumbleCore " + "CreateNewRumbleEntityFromModel " + "motorType is not valid");
             }
         }
 
@@ -45,18 +47,20 @@ namespace TenonKit.Buzz {
             ApplyCheckTask(ctx);
 
             // Apply Rumble
-            if (ctx.currentLeftRumble.isFinished == false) {
+            if (ctx.currentLeftRumble != null && ctx.currentLeftRumble.isFinished == false) {
                 ApplyRumble(ctx.currentLeftRumble, dt);
+                // BLog.Log("RumbleCore " + "TickRumble " + "leftFreq: " + ctx.currentLeftRumble.currentFreq);
             }
-            if (ctx.currentRightRumble.isFinished == false) {
+            if (ctx.currentRightRumble != null && ctx.currentRightRumble.isFinished == false) {
                 ApplyRumble(ctx.currentRightRumble, dt);
+                // BLog.Log("RumbleCore " + "TickRumble " + "rightFreq: " + ctx.currentRightRumble.currentFreq);
             }
 
             var leftRumble = ctx.currentLeftRumble;
             var rightRumble = ctx.currentRightRumble;
 
             leftFreq = leftRumble.isFinished ? 0 : leftRumble.currentFreq;
-            rightFreq = leftRumble.isFinished ? 0 : rightRumble.currentFreq;
+            rightFreq = rightRumble.isFinished ? 0 : rightRumble.currentFreq;
         }
 
         static void ApplyTaskTime(RumbleContext ctx, float dt) {
@@ -66,9 +70,6 @@ namespace TenonKit.Buzz {
             }
             for (var i = 0; i < len; i++) {
                 var model = modelArr[i];
-                if (model.delay <= 0) {
-                    continue;
-                }
                 model.delay -= dt;
                 ctx.UpdateTask(model, i);
             }
@@ -84,35 +85,35 @@ namespace TenonKit.Buzz {
                 var model = modelArr[i];
 
                 if (model.motorType == MotorType.Left) {
-                    if (!IsLeftMotorRubbling(ctx)) {
+                    if (!HasLeftMotorRubbling(ctx)) {
                         CreateNewRumbleEntityFromModel(ctx, model);
-                        return;
+                        continue;
                     }
                     UpdateRumbleFromModel(ctx, model);
-                    return;
+                    continue;
                 }
 
                 if (model.motorType == MotorType.Right) {
-                    if (!IsRightMotorRubbling(ctx)) {
+                    if (!HasRightMotorRubbling(ctx)) {
                         CreateNewRumbleEntityFromModel(ctx, model);
-                        return;
+                        continue;
                     }
                     UpdateRumbleFromModel(ctx, model);
-                    return;
+                    continue;
                 }
 
                 if (model.motorType == MotorType.Both) {
-                    if (!IsLeftMotorRubbling(ctx)) {
+                    if (!HasLeftMotorRubbling(ctx)) {
                         CreateNewRumbleEntityFromModel(ctx, model);
                     } else {
                         UpdateRumbleFromModel(ctx, model);
                     }
-                    if (!IsRightMotorRubbling(ctx)) {
+                    if (!HasRightMotorRubbling(ctx)) {
                         CreateNewRumbleEntityFromModel(ctx, model);
                     } else {
                         UpdateRumbleFromModel(ctx, model);
                     }
-                    return;
+                    continue;
                 }
 
             }
@@ -128,6 +129,14 @@ namespace TenonKit.Buzz {
                 return;
             }
             rumble.currentFreq = EasingHelper.Easing(rumble.startFreq, rumble.endFreq, rumble.currentTime, rumble.duration, rumble.easingType, rumble.easingMode);
+        }
+
+        static bool HasLeftMotorRubbling(RumbleContext ctx) {
+            return ctx.currentLeftRumble != null;
+        }
+
+        static bool HasRightMotorRubbling(RumbleContext ctx) {
+            return ctx.currentRightRumble != null;
         }
 
         static bool IsLeftMotorRubbling(RumbleContext ctx) {
