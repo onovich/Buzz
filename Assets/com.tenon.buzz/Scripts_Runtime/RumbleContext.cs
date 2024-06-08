@@ -50,19 +50,14 @@ namespace TenonKit.Buzz {
         }
 
         internal int TakeAllReadyTask(out RumbleTaskModel[] modelArray) {
+
+            if (allTask.Count >= readyTaskTemp.Length) {
+                readyTaskTemp = new RumbleTaskModel[(int)(allTask.Count * 1.5f)];
+            }
+
             int count = 0;
             for (int i = 0; i < allTask.Count; i++) {
                 var model = allTask[i];
-                if (model.motorType == MotorType.None) {
-                    continue;
-                }
-
-                if (count >= readyTaskTemp.Length) {
-                    var newReadyTemp = new RumbleTaskModel[(int)(count * 1.5f)];
-                    readyTaskTemp.CopyTo(newReadyTemp, 0);
-                    readyTaskTemp = newReadyTemp;
-                }
-
                 if (model.delay <= 0) {
                     readyTaskTemp[i] = model;
                     count++;
@@ -71,7 +66,6 @@ namespace TenonKit.Buzz {
 
             modelArray = readyTaskTemp;
 
-            allTask.RemoveAll(model => model.delay <= 0);
             if (count == 2) {
                 Debug.Log("count==2: type: " + readyTaskTemp[0].motorType + " " + readyTaskTemp[1].motorType);
             }
@@ -79,6 +73,10 @@ namespace TenonKit.Buzz {
                 Debug.Log("count==1: type: " + readyTaskTemp[0].motorType);
             }
             return count;
+        }
+
+        internal void RemoveAllReadyTask() {
+            allTask.RemoveAll(model => model.delay <= 0);
         }
 
         internal void Clear() {

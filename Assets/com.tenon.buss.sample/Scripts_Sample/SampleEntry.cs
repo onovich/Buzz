@@ -41,7 +41,7 @@ namespace TenonKit.Buzz.Sample {
         }
 
         void Rumble1() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+            rumbleCore.CreateRumbleTaskModel(MotorType.Left, delay: 0, startFreq: 1f, endFreq: 0f, duration: 1, EasingType.Linear, EasingMode.EaseOut);
             rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
         }
 
