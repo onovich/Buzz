@@ -8,6 +8,11 @@ namespace TenonKit.Buzz.Sample {
         Gamepad gamepad;
         RumbleCore rumbleCore;
 
+        public RumbleTaskModel[] rumble1Task;
+        public RumbleTaskModel[] rumble2Task;
+        public RumbleTaskModel[] rumble3Task;
+        public RumbleTaskModel[] rumble4Task;
+
         void Start() {
             InitRumbleCore();
             TrySetCurrentGamepad();
@@ -41,23 +46,31 @@ namespace TenonKit.Buzz.Sample {
         }
 
         void Rumble1() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, delay: 0, startFreq: 1f, endFreq: 0f, duration: 1, EasingType.Linear, EasingMode.EaseOut);
-            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+            for (var i = 0; i < rumble1Task.Length; i++) {
+                var task = rumble1Task[i];
+                rumbleCore.CreateRumbleTaskModel(task.motorType, task.delay, task.startFreq, task.endFreq, task.duration, task.easingType, task.easingMode);
+            }
         }
 
         void Rumble2() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 3, EasingType.Linear, EasingMode.EaseOut);
-            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, 1, EasingType.Linear, EasingMode.EaseOut);
+            for (var i = 0; i < rumble2Task.Length; i++) {
+                var task = rumble2Task[i];
+                rumbleCore.CreateRumbleTaskModel(task.motorType, task.delay, task.startFreq, task.endFreq, task.duration, task.easingType, task.easingMode);
+            }
         }
 
         void Rumble3() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 2, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 1, 0.5f, 0.5f, 1, EasingType.Linear, EasingMode.EaseOut);
+            for (var i = 0; i < rumble3Task.Length; i++) {
+                var task = rumble3Task[i];
+                rumbleCore.CreateRumbleTaskModel(task.motorType, task.delay, task.startFreq, task.endFreq, task.duration, task.easingType, task.easingMode);
+            }
         }
 
         void Rumble4() {
-            rumbleCore.CreateRumbleTaskModel(MotorType.Right, 0, 1f, 0f, .2f, EasingType.Sine, EasingMode.EaseOut);
-            rumbleCore.CreateRumbleTaskModel(MotorType.Left, 0, 1f, 0f, 1, EasingType.Sine, EasingMode.EaseOut);
+            for (var i = 0; i < rumble4Task.Length; i++) {
+                var task = rumble4Task[i];
+                rumbleCore.CreateRumbleTaskModel(task.motorType, task.delay, task.startFreq, task.endFreq, task.duration, task.easingType, task.easingMode);
+            }
         }
 
         void StopAllRumble() {

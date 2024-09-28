@@ -244,6 +244,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d924e15a996f7142bc873cf857ac1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rumble1Task:
+  - motorType: 1
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 0.1
+    easingType: 0
+    easingMode: 2
+  - motorType: 2
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 0.1
+    easingType: 0
+    easingMode: 2
+  rumble2Task:
+  - motorType: 1
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 3
+    easingType: 0
+    easingMode: 2
+  - motorType: 2
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 1
+    easingType: 0
+    easingMode: 2
+  rumble3Task:
+  - motorType: 1
+    delay: 2
+    startFreq: 0.5
+    endFreq: 0.5
+    duration: 1
+    easingType: 0
+    easingMode: 2
+  - motorType: 2
+    delay: 1
+    startFreq: 0.5
+    endFreq: 0.5
+    duration: 1
+    easingType: 0
+    easingMode: 2
+  rumble4Task:
+  - motorType: 1
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 0.2
+    easingType: 1
+    easingMode: 2
+  - motorType: 2
+    delay: 0
+    startFreq: 1
+    endFreq: 0
+    duration: 1
+    easingType: 1
+    easingMode: 2
 --- !u!4 &1937978235
 Transform:
   m_ObjectHideFlags: 0
